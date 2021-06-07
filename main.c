@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include <conio.h>
 #include <windows.h>
 #include <string.h>
 
@@ -18,7 +19,20 @@ int count=0;
 int completedCount=0; 
 int Queen[8];
 void showRanks();
-bool isCompletedGame=true;
+bool isCompletedGame=false;
+typedef enum
+{
+	cRED = FOREGROUND_RED,
+	cWHITE = FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN
+} CONSOLE_COLOR;
+void SetConsoleTextColor(CONSOLE_COLOR color)
+{
+	static HANDLE console = NULL;
+ 
+	if (console == NULL) console = GetStdHandle(STD_OUTPUT_HANDLE);
+ 
+	SetConsoleTextAttribute(console, color);
+}
 struct link
 {
 	int id;
@@ -141,7 +155,9 @@ void startGameing(int BoardSize){
 		printf("============棋================================盘==============\n\n");
 		for(int i=0;i<BoardSize;i++){
 		for(int j=0;j<BoardSize;j++){
+			if(board[i][j]==1) SetConsoleTextColor(cRED); 
 			printf("%d\t",board[i][j]);
+			SetConsoleTextColor(cWHITE);
 		}
 		printf("\n\n");
 		}
@@ -165,7 +181,9 @@ void startGameing(int BoardSize){
 		printf("============棋================================盘==============\n\n");
 		for(int i=0;i<BoardSize;i++){
 		for(int j=0;j<BoardSize;j++){
+			if(board[i][j]==1) SetConsoleTextColor(cRED); 
 			printf("%d\t",board[i][j]);
+			SetConsoleTextColor(cWHITE);
 		}
 		printf("\n\n");
 		}
@@ -240,8 +258,7 @@ void showResults(){
 	Sleep(2000);
 	EightQueen(0,BoardSize);
 }
-
-//递归回溯 
+ 
 void EightQueen(int n,int BoardSize){
 	for(int i=0;i<BoardSize;i++){
 		Queen[n]=i;
@@ -272,7 +289,11 @@ void cnt(int BoardSize){
 		printf("============棋================================盘==============\n\n");
 	for(int i=0;i<BoardSize;i++){
 		for(int j=0;j<BoardSize;j++){
-			if(Queen[i]==j) printf("1\t");
+			if(Queen[i]==j) {
+				SetConsoleTextColor(cRED);
+				printf("1\t");
+				SetConsoleTextColor(cWHITE);
+			}
 			else  printf("0\t");
 			
 		}
